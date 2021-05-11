@@ -70,12 +70,12 @@ class MyServer:
                             src, dest = val.split("&")
                             x = trains.find({'source': src, 'destination': dest})
                             if x == None:
-                                self.csocket.send(bytes("<-- No train found with the given stations -->", 'utf-8'))
+                                self.csocket.send(bytes("NULL", 'utf-8'))
                             else:
                                 x = list(x)
-                                res = "\nNumber\tTrain name"
+                                res = "\narr\tdept\tNumber\tTrain name"
                                 for t in x:
-                                    res += '\n' + t['number'] + '\t' + t['name']
+                                    res += '\n' + t['arrival_time'] + "\t" + t['departure_time'] + "\t" +t['number'] + '\t' + t['name']
                                 self.csocket.send(bytes(res, 'utf-8'))
                                 
                 except:

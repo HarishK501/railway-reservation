@@ -29,7 +29,6 @@ while True:
             res = in_data.decode()
             print(res)
 
-
         elif op == '2':  # find trains
             src = input("➡  Enter origin station: ")
             dest = input("➡  Enter destination: ")
@@ -37,7 +36,45 @@ while True:
             client.sendall(bytes(req, 'UTF-8'))
             in_data = client.recv(1024)
             res = in_data.decode()
+            if res == 'NULL':
+                res = "<-- No train found with the given stations -->"
             print(res)
+
+        elif op == '3':  # book ticket
+            print("Enter login credentials:")
+            username = input("➡  Username: ")
+            password = input("➡  Password: ")
+            req = "login/" + username + "&" + password
+            client.sendall(bytes(req, 'UTF-8'))
+            in_data = client.recv(1024)
+            res = in_data.decode()
+            if res == 'OK':
+                print("Logged in successfully!\n")
+                src = input("➡  Enter origin station: ")
+                dest = input("➡  Enter destination: ")
+                req = "findTrains/" + src + "&" + dest
+                client.sendall(bytes(req, 'UTF-8'))
+                in_data = client.recv(1024)
+                res = in_data.decode()
+                if res == 'NULL':
+                    res = "<-- No train found with the given stations -->"
+                    print(res)
+                    continue
+                print(res)
+                train = input("➡  Choose a train (Enter train number): ")
+                seats = input("➡  Enter number of seats: ")
+                req = "checkTrain/" + train + "#" + seats
+                client.sendall(bytes(req, 'UTF-8'))
+                in_data = client.recv(1024)
+                res = in_data.decode()
+                if res == "OK":
+                    print("Seats available!")
+                    choice = input("➡  Book the tickets? (y/n): ")
+                    if choice == 'y':
+                        req = "bookTicket/" + train + "#" + seats
+                        client.sendall(bytes(req, 'UTF-8'))
+                        in_data = client.recv(1024)
+                        res = in_data.decode()
             
 
     except:

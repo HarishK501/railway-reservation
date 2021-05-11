@@ -1,7 +1,6 @@
 import socket
 import threading
 import pymongo
-from credentials import user
 
 def connectDB(db):
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -29,7 +28,10 @@ class MyServer:
             except:
                 print("Bye!")
                 break
-            loop = int(input())
+            try:
+                loop = int(input())
+            except:
+                break
 
     class ClientThread(threading.Thread):
         def __init__(self, clientsocket, clientAddress):
@@ -52,17 +54,30 @@ class MyServer:
                     else:  
                         fn, val = msg.split("/")
                         if fn == "getTrainInfo":
-                            x = dict(trains.find_one({'number': val}))
+                            x = trains.find_one({'number': val})
                             if x == None:
-                                self.csocket.send(bytes("No train found with the given number", 'utf-8'))
+                                self.csocket.send(bytes("<-- No train found with the given number -->", 'utf-8'))
                             else:
-                                res = ""
+                                x = dict(x)
+                                res = "\n"
                                 for key in x.keys():
                                     if str(key) == "_id":
                                         continue
                                     res += str(key).capitalize() + "\t\t: " + str(x[key]) + "\n"
                                 self.csocket.send(bytes(res, 'utf-8'))
                             
+                        elif fn == "findTrains":
+                            src, dest = val.split("&")
+                            x = trains.find({'source': src, 'destination': dest})
+                            if x == None:
+                                self.csocket.send(bytes("<-- No train found with the given stations -->", 'utf-8'))
+                            else:
+                                x = list(x)
+                                res = "\nNumber\tTrain name"
+                                for t in x:
+                                    res += '\n' + t['number'] + '\t' + t['name']
+                                self.csocket.send(bytes(res, 'utf-8'))
+                                
                 except:
                     break
 

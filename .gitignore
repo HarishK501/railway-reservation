@@ -1,5 +1,5 @@
 credentials.py
-venv/
+venv*
 __pycache__
 .vscode/
 test*

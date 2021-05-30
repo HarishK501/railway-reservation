@@ -15,10 +15,15 @@ myDB = myclient["railDB"]
 #     'password': "rahul123"
 # }
 
-# users = [user1, user2]
+# user3 = {
+#     'username': "raju",
+#     'password': "raju123"
+# }
+
+# users = [user1, user2, user3]
 # login.insert_many(users)
 
-# trains = myDB["trains"]
+trains = myDB["trains"]
 
 # train1 = {
 #     'number': "12267",
@@ -120,10 +125,21 @@ myDB = myclient["railDB"]
 #     'departure_time': "22:35"
 # }
 
+# train10 = {
+#     'number': "02420",
+#     'name': "Gomti Express SPL",
+#     'type': 'Superfast',
+#     'source': "New Delhi",    
+#     'destination': "Lucknow",
+#     'available_seats': 4,
+#     'arrival_time': "07:30",
+#     'departure_time': "21:40"
+# }
+
 # trains_list = [train1, train2, train3, train4, train5, train6, train7, train8, train9]
 
 # trains.insert_many(trains_list)
-
+# trains.insert_one(train10)
 
 
 # print("hello".capitalize())

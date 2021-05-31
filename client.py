@@ -8,7 +8,7 @@ client = socket.socket()
 client.connect((SERVER, PORT))
 # print(client.getsockname())
 line = "\n---------------------------------------"
-options = line + "\n1. Get train info\n2. Find trains\n3. Book Ticket\n4. Cancel Reservation\n" 
+options = line + "\n1. Get train info\n2. Find trains\n3. Book Ticket\n4. Cancel Reservation\n5. Exit portal" 
 print("Hi user!\nWelcome to Railway Reservation Portal!\n")
 
 while True:
@@ -122,7 +122,11 @@ while True:
 
             else:
                 print("Invalid credentials!!")
-            
+
+        elif op == '5': #exit
+            print("Thank you!")
+            break
+
     except:
         print("Connection closed")
         break

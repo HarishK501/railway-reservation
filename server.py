@@ -124,11 +124,14 @@ class MyServer:
                                     self.csocket.send(bytes("Seats booked!\nTicket id: {}".format(str(t.inserted_id)), 'utf-8'))
 
                         elif fn == "checkTicket":
-                            x = reservations.find_one({"_id": ObjectId(val)})
-                            if x == None:
+                            try:
+                                x = reservations.find_one({"_id": ObjectId(val)})
+                                if x == None:
+                                    self.csocket.send(bytes("404", 'utf-8'))
+                                else:
+                                    self.csocket.send(bytes("OK", 'utf-8'))
+                            except:
                                 self.csocket.send(bytes("404", 'utf-8'))
-                            else:
-                                self.csocket.send(bytes("OK", 'utf-8'))
 
                         elif fn == "cancelTicket":
                             x = reservations.find_one({"_id": ObjectId(val)})
